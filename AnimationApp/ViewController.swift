@@ -12,23 +12,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var viewAnimation: SpringView!
     @IBOutlet weak var runButton: SpringButton!
     
-    @IBOutlet weak var animationLabel: UILabel!
-    @IBOutlet weak var curveLabel: UILabel!
-    @IBOutlet weak var forceLabel: UILabel!
-    @IBOutlet weak var durationLabel: UILabel!
-    @IBOutlet weak var delayLabel: UILabel!
+    @IBOutlet weak var resultsLabel: UILabel!
     
     private let cornerForButton: CGFloat = 12
     private let cornerForView: CGFloat = 12
     
-    private let animations = Animation.typeOfAnimation
-    private let curves = Animation.typeOfCurve
-    
-    private var animation = Animation.animation
-    private var curve = Animation.curve
-    private var force = CGFloat.random(in: 1.5...1.8)
-    private var duration = CGFloat.random(in: 1...2.2)
-    private var delay = CGFloat.random(in: 0.1...0.4)
+    private var animation = Animation.getAnimation().animation
+    private var curve = Animation.getAnimation().curve
+    private var force = CGFloat(Animation.getAnimation().force)
+    private var duration = CGFloat(Animation.getAnimation().duration)
+    private var delay = CGFloat(Animation.getAnimation().delay)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +33,13 @@ class ViewController: UIViewController {
         if runButton.currentTitle == "Run" {
             runAnimation()
         } else {
-            animationLabel.text = "Animation: \(animation)"
-            curveLabel.text = "Curve: \(curve)"
-            forceLabel.text = "Force: \(format(from: force))"
-            durationLabel.text = "Duration: \(format(from: duration))"
-            delayLabel.text = "Delay: \(format(from: delay))"
+            resultsLabel.text = """
+            Animation: \(animation)
+            Curve: \(curve)
+            Force: \(format(from: force))
+            Duration: \(format(from: duration))
+            Delay: \(format(from: delay))
+            """
             runAnimation()
         }
     }
@@ -57,11 +52,13 @@ class ViewController: UIViewController {
         //view
         viewAnimation.layer.cornerRadius = cornerForView
         //label
-        animationLabel.text = "Animation: \(animation)"
-        curveLabel.text = "Curve: \(curve)"
-        forceLabel.text = "Force: \(format(from: force))"
-        durationLabel.text = "Duration: \(format(from: duration))"
-        delayLabel.text = "Delay: \(format(from: delay))"
+        resultsLabel.text = """
+        Animation: \(animation)
+        Curve: \(curve)
+        Force: \(format(from: force))
+        Duration: \(format(from: duration))
+        Delay: \(format(from: delay))
+        """
     }
     
     private func runAnimation() {
@@ -71,11 +68,11 @@ class ViewController: UIViewController {
         viewAnimation.duration = duration
         viewAnimation.delay = delay
         viewAnimation.animate()
-        animation = animations.randomElement()!
-        curve = curves.randomElement()!
-        force = CGFloat.random(in: 1.5...1.8)
-        duration = CGFloat.random(in: 1...2)
-        delay = CGFloat.random(in: 0.1...0.4)
+        animation = Animation.getAnimation().animation
+        curve = Animation.getAnimation().curve
+        force = CGFloat(Animation.getAnimation().force)
+        duration = CGFloat(Animation.getAnimation().duration)
+        delay = CGFloat(Animation.getAnimation().delay)
         runButton.setTitle("Run \(animation)", for: .normal)
     }
     
